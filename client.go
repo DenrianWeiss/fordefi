@@ -35,18 +35,15 @@ func New(clientConfig ClientJson) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	decodedKey, err := x509.ParsePKCS8PrivateKey(rawBytes)
+	decodedKey, err := x509.ParseECPrivateKey(rawBytes)
 	if err != nil {
-		return nil, err
-	}
-	if _, ok := decodedKey.(*ecdsa.PrivateKey); !ok {
 		return nil, err
 	}
 	// Init client
 	client := &Client{
 		Host:     clientConfig.Host,
 		Token:    clientConfig.Token,
-		EcdsaKey: *decodedKey.(*ecdsa.PrivateKey),
+		EcdsaKey: *decodedKey,
 	}
 	if clientConfig.Host == "" {
 		client.Host = DefaultApiEndpoint

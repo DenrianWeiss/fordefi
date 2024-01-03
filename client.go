@@ -71,7 +71,7 @@ func (c *Client) post(path string, req interface{}, noSignature ...bool) (resp [
 	reqHttp.Header.Set("X-Timestamp", fmt.Sprintf("%d", timeStampMilli))
 	if len(noSignature) == 0 || !noSignature[0] {
 		// Sign
-		sigPayload := fmt.Sprintf("%d|%s|%s", timeStampMilli, path, serBody)
+		sigPayload := fmt.Sprintf("%s|%d|%s", path, timeStampMilli, serBody)
 		sigDigest := sha256.Sum256([]byte(sigPayload))
 		sig, err := c.EcdsaKey.Sign(rand.Reader, sigDigest[:], nil)
 		if err != nil {

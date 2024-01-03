@@ -23,7 +23,7 @@ type EvmSignRequest struct {
 func (c *Client) EvmSignMessage(vaultId string, chain string, data string, signType string, note ...string) (resp *EvmSignResp, err error) {
 	reqBody := EvmSignRequest{}
 	reqBody.SignerType = "api_signer"
-	reqBody.Type = "evm_sign"
+	reqBody.Type = "evm_message"
 	reqBody.Details.Type = signType
 	reqBody.Details.RawData = data
 	reqBody.Details.Chain = chain

@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -49,6 +50,24 @@ func New(clientConfig ClientJson) (*Client, error) {
 		client.Host = DefaultApiEndpoint
 	}
 	return client, nil
+}
+
+func NewFromEnv() (*Client, error) {
+	token, _ := os.LookupEnv("FORDEFI_TOKEN")
+	ecdsaKey, _ := os.LookupEnv("FORDEFI_ECDSA_KEY")
+	if token == "" || ecdsaKey == "" {
+		panic("FORDEFI_TOKEN or FORDEFI_ECDSA_KEY is not set")
+	}
+	var err error
+	clientInstance, err := New(ClientJson{
+		Host:     "https://api.fordefi.com",
+		Token:    token,
+		EcdsaKey: ecdsaKey,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return clientInstance, nil
 }
 
 func (c *Client) post(path string, req interface{}, noSignature ...bool) (resp []byte, err error) {

@@ -51,6 +51,22 @@ const (
 	ReleaseAccelerate = "accelerate"
 )
 
+const (
+	StatusWaitingForApproval = "waiting_for_approval"
+	StatusApproved           = "approved"
+	StatusPushedToBlockchain = "pushed_to_blockchain"
+	StatusCompleted          = "completed"
+	StatusReverted           = "reverted"
+	StatusStuck              = "stuck"
+	StatusAborted            = "aborted"
+)
+
+var OnChainStatuses = map[string]bool{
+	StatusPushedToBlockchain: true,
+	StatusCompleted:          true,
+	StatusReverted:           true,
+}
+
 // Misc Values
 
 const MaxRepr = -1

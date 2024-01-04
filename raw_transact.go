@@ -30,15 +30,17 @@ func (e *EvmRawTransactReq) Prepare() {
 // @param vaultId: vault id.
 // @param chain: chain name.
 // @param gasOps: gas options.
+// @param to: tx to address.
 // @param amount: value to transfer
 // @param fnName: function name.
 // @param args: function args, in `["name1:value1", "name2:value2"]` format.
 // @param note: note.
-func (c *Client) EvmTransactByName(vaultId string, chain string, gasOps EvmGasOps, amount *big.Int, fnName string, args []string, note ...string) (resp *EvmTransactResp, err error) {
+func (c *Client) EvmTransactByName(vaultId string, chain string, gasOps EvmGasOps, to string, amount *big.Int, fnName string, args []string, note ...string) (resp *EvmTransactResp, err error) {
 	reqBody := EvmRawTransactReq{}
 	(&reqBody).Prepare()
 	reqBody.Details.Gas = gasOps
 	reqBody.Details.Chain = chain
+	reqBody.Details.To = to
 	reqBody.Details.Data = map[string]interface{}{
 		"type":             ModeByFunctionName,
 		"method_name":      fnName,
@@ -66,10 +68,11 @@ func (c *Client) EvmTransactByName(vaultId string, chain string, gasOps EvmGasOp
 // @param vaultId: vault id.
 // @param chain: chain name.
 // @param gasOps: gas options.
+// @param to: tx to address.
 // @param amount: value to transfer
 // @param data: raw data.
 // @param note: note.
-func (c *Client) EvmTransactByData(vaultId string, chain string, gasOps EvmGasOps, amount *big.Int, data string, note ...string) (resp *EvmTransactResp, err error) {
+func (c *Client) EvmTransactByData(vaultId string, chain string, gasOps EvmGasOps, to string, amount *big.Int, data string, note ...string) (resp *EvmTransactResp, err error) {
 	reqBody := EvmRawTransactReq{}
 	(&reqBody).Prepare()
 	reqBody.Details.Gas = gasOps
@@ -78,6 +81,7 @@ func (c *Client) EvmTransactByData(vaultId string, chain string, gasOps EvmGasOp
 		"type":     ModeByHexData,
 		"hex_data": data,
 	}
+	reqBody.Details.To = to
 	reqBody.Details.Value = amount.String()
 	reqBody.VaultId = vaultId
 	if len(note) > 0 {
@@ -100,10 +104,11 @@ func (c *Client) EvmTransactByData(vaultId string, chain string, gasOps EvmGasOp
 // @param vaultId: vault id.
 // @param chain: chain name.
 // @param gasOps: gas options.
+// @param to: tx to address.
 // @param amount: value to transfer
 // @param data: base64 encoded data.
 // @param note: note.
-func (c *Client) EvmTransactByBase64Data(vaultId string, chain string, gasOps EvmGasOps, amount *big.Int, data string, note ...string) (resp *EvmTransactResp, err error) {
+func (c *Client) EvmTransactByBase64Data(vaultId string, chain string, gasOps EvmGasOps, to string, amount *big.Int, data string, note ...string) (resp *EvmTransactResp, err error) {
 	reqBody := EvmRawTransactReq{}
 	(&reqBody).Prepare()
 	reqBody.Details.Gas = gasOps
@@ -112,6 +117,7 @@ func (c *Client) EvmTransactByBase64Data(vaultId string, chain string, gasOps Ev
 		"type":     ModeByBase64Data,
 		"raw_data": data,
 	}
+	reqBody.Details.To = to
 	reqBody.Details.Value = amount.String()
 	reqBody.VaultId = vaultId
 	if len(note) > 0 {

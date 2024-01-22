@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"time"
@@ -112,6 +113,7 @@ func (c *Client) post(path string, req interface{}, noSignature ...bool) (resp [
 		return nil, err
 	}
 	if respHttp.StatusCode > 300 || respHttp.StatusCode < 200 {
+		log.Println("HttpError Response:", string(resp))
 		return resp, fmt.Errorf("status code %d", respHttp.StatusCode)
 	}
 	return resp, nil
@@ -135,6 +137,7 @@ func (c *Client) get(path string) (resp []byte, err error) {
 		return nil, err
 	}
 	if respHttp.StatusCode > 300 || respHttp.StatusCode < 200 {
+		log.Println("HttpError Response:", string(resp))
 		return resp, fmt.Errorf("status code %d", respHttp.StatusCode)
 	}
 	return resp, nil

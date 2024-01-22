@@ -39,6 +39,7 @@ func (c *Client) EvmTransactByName(vaultId string, chain string, gasOps EvmGasOp
 	reqBody := EvmRawTransactReq{}
 	(&reqBody).Prepare()
 	reqBody.Details.Gas = gasOps
+	reqBody.Details.Type = "evm_raw_transaction"
 	reqBody.Details.Chain = chain
 	reqBody.Details.To = to
 	reqBody.Details.Data = map[string]interface{}{
@@ -75,6 +76,7 @@ func (c *Client) EvmTransactByName(vaultId string, chain string, gasOps EvmGasOp
 func (c *Client) EvmTransactByData(vaultId string, chain string, gasOps EvmGasOps, to string, amount *big.Int, data string, note ...string) (resp *EvmTransactResp, err error) {
 	reqBody := EvmRawTransactReq{}
 	(&reqBody).Prepare()
+	reqBody.Details.Type = "evm_raw_transaction"
 	reqBody.Details.Gas = gasOps
 	reqBody.Details.Chain = chain
 	reqBody.Details.Data = map[string]interface{}{
@@ -112,6 +114,7 @@ func (c *Client) EvmTransactByBase64Data(vaultId string, chain string, gasOps Ev
 	reqBody := EvmRawTransactReq{}
 	(&reqBody).Prepare()
 	reqBody.Details.Gas = gasOps
+	reqBody.Details.Type = "evm_raw_transaction"
 	reqBody.Details.Chain = chain
 	reqBody.Details.Data = map[string]interface{}{
 		"type":     ModeByBase64Data,

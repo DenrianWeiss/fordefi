@@ -10,7 +10,7 @@ import (
 var ErrTimeout = errors.New("timeout")
 var ErrAborted = errors.New("aborted")
 
-var DefaultCountLimit = 10 // 10 * 3 sec
+var DefaultCountLimit = 100 // 100 * 3 sec
 
 func WaitUntilSigned(txUuid string, client *fordefi.Client, countLimit ...int) (string, error) {
 	// Create a ticker at 3 sec
